@@ -8,20 +8,7 @@ class ListForm extends React.Component {
     };
   }
 
-  handleAdditem = (itemTask) => {
-    const newTodo = {
-      task: itemTask,
-      id: Date.now(),
-      completed: false,
-    };
-    this.setState({
-      ...this.state,
-      todos: [...this.props.todos, newTodo],
-    });
-  };
-
   handleChanges = (e) => {
-    console.log("working", this.state.input);
     this.setState({
       ...this.state,
       input: e.target.value,
@@ -29,23 +16,17 @@ class ListForm extends React.Component {
   };
 
   handleSubmit = (e) => {
-    e.preventDefault();
-    this.handleAdditem(this.state.input);
-  };
-
-  addItem = () => {
     console.log("adding");
+    e.preventDefault();
+    this.props.handleAdditem(this.state.input);
   };
 
-  deleteItem = () => {
-    console.log("deleting");
-  };
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form>
         <input onChange={this.handleChanges} type="text"></input>
-        <button>add</button>
-        <button onClick={this.deleteItem}>delete</button>
+        <button onClick={this.handleSubmit}>add</button>
+        <button onClick={this.props.deleteItem}>delete</button>
       </form>
     );
   }

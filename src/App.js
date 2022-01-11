@@ -11,7 +11,7 @@ const todos = [
   {
     task: "Bake Cookies",
     id: 1528817084358,
-    completed: false,
+    completed: true,
   },
 ];
 
@@ -23,6 +23,46 @@ class App extends React.Component {
     };
   }
 
+  deleteItem = (e) => {
+    e.preventDefault();
+
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.filter((item) => {
+        return !item.completed;
+      }),
+    });
+  };
+
+  toggleItem = (selectedItem) => {
+    console.log("clicking");
+    this.setState({
+      ...this.state,
+      todos: this.state.todos.map((item) => {
+        if (item.id === selectedItem.id) {
+          return {
+            ...item,
+            completed: !item.completed,
+          };
+        } else {
+          return item;
+        }
+      }),
+    });
+  };
+
+  handleAdditem = (itemTask) => {
+    console.log("handle add item is working", itemTask);
+    const newTodo = {
+      task: itemTask,
+      id: Date.now(),
+      completed: false,
+    };
+    this.setState({
+      ...this.state,
+      todos: [...this.state.todos, newTodo],
+    });
+  };
   // you will need a place to store your state in this component.
   // design `App` to be the parent component of your application.
   // this component is going to take care of state, and any change handlers you need to work with your state
@@ -30,8 +70,12 @@ class App extends React.Component {
     return (
       <div>
         <h2>Welcome to your Todo App!</h2>
-        <TodoList todos={this.state.todos} />
-        <ListForm todos={this.state.todos} />
+        <TodoList todos={this.state.todos} toggleItem={this.toggleItem} />
+        <ListForm
+          handleAdditem={this.handleAdditem}
+          deleteItem={this.deleteItem}
+        />
+        {/* <button onClick={this.deleteItem}>delete</button> */}
       </div>
     );
   }
