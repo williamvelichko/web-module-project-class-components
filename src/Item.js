@@ -1,12 +1,17 @@
 import React from "react";
 
-class Item extends React.Component {
-  render() {
-    return (
-      <div className={`item${props.item.purchased ? " purchased" : ""}`}>
-        <p>{props.item.task}</p>
-      </div>
-    );
-  }
-}
+const Item = (props) => {
+  const handleClick = () => {
+    props.toggleItem(props.item);
+  };
+
+  return (
+    <div
+      onClick={handleClick}
+      className={`item${props.item.completed ? " completed" : ""}`}
+    >
+      <p>{props.item.task}</p>
+    </div>
+  );
+};
 export default Item;
